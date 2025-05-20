@@ -1,20 +1,23 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:snapify/CameraScreen.dart';
 
-void main() {
-  runApp(const MainApp());
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  final cameras = await availableCameras();
+  final firstCamera = cameras.first;
+  runApp( MainApp(camera: firstCamera));
 }
 
 class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+  final CameraDescription camera;
+  const MainApp({super.key, required this.camera});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
+    return MaterialApp(
+      theme: ThemeData.dark(),
+      home: CameraScreen(camera: camera)
     );
   }
 }
